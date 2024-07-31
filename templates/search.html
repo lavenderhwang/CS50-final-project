@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% block title %} Search {% endblock %} {% block
+content %}
+<form action="/search" method="post">
+	<input type="text" name="ingredients" placeholder="Ingredients..." />
+	<input
+		type="number"
+		min="1"
+		max="100"
+		name="numOfRecipes"
+		placeholder="number"
+	/>
+	<button type="submit">Search for Recipes</button>
+</form>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "layout.html" %} {% block title %} Search {% endblock %} {% block
+content %}
+<h1>Recipes</h1>
+<ul>
+	{% if recipes %}
+	<ul>
+		{% for recipe in recipes %}
+		<li>
+			<h2>{{ recipe.title }}</h2>
+			{% if recipe.image %}
+			<img
+				src="{{ recipe.image }}"
+				alt="{{ recipe.title }}"
+				style="max-width: 200px; height: auto"
+			/>
+			{% endif %}
+			<a href="{{ recipe.sourceUrl }}" target="_blank">View Recipe</a>
+			<p>Missing ingredients: {{ recipe.missedIngredientCount}}</p>
+			{% if recipe.missedIngredientCount >= 1 %}
+                {%for ingredient in recipe.missedIngredients%}
+                <li>{% title({{ingredient['name']}}) %}</li>
+                {%endfor%}
+			{%endif%}
+		</li>
+		{% endfor %}
+	</ul>
+	{% else %}
+	<p>No recipes found. Please try different ingredients.</p>
+	{% endif %}
+</ul>
+
+{% endblock %}
