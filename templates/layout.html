@@ -11,6 +11,7 @@
 	</head>
 	<body>
 		<nav>
+			{% if session["user_id" ] %}
 			<ul class="navbar">
 				<li><a href="/search">Search</a></li>
 				<li><a href="/saved">Saved</a></li>
@@ -18,15 +19,19 @@
 					<a href="/cart">Cart</a>
 				</li>
 				<li>
+					<a href="/logout">Log Out</a>
+				</li>
+			</ul>
+			{% else %}
+			<ul>
+				<li>
 					<a href="/register">Register</a>
 				</li>
 				<li>
 					<a href="/login">Log In</a>
 				</li>
-				<li>
-					<a href="/logout">Log Out</a>
-				</li>
 			</ul>
+			{% endif %}
 		</nav>
 
 		<main>{% block content %} {% endblock %}</main>

@@ -22,6 +22,12 @@ content %}
                 {%endfor%}
 			{%endif%}
 		</li>
+		<form action="/save_recipe" method="post">
+			<input type="hidden" name="recipe_name" value="{{ recipe.title }}">
+			<input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+			<button type="submit"> Save Recipe</button>
+		</form>
+		
 		{% endfor %}
 	</ul>
 	{% else %}

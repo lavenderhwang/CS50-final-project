@@ -5,6 +5,9 @@ from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
 
+
+from functions import login_required
+
 app = Flask(__name__)
 
 #Using Spoonacular API
@@ -45,10 +48,11 @@ def get_db_connection():
     conn = sqlite3.connect('database.db')
     return conn
 
-
 @app.route('/')
-def home():
-    """Home page"""
+def index():
+    """Auto Load"""
+    if "user_id" not in session:
+        return redirect("/login")
     return render_template('layout.html')
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -66,12 +70,14 @@ def register():
         if confirmation != password:
             return "Passwords must match", 400
         
+        hashed_password = generate_password_hash(password)
+        
         conn = get_db_connection()
         cursor = conn.cursor()
         
         # Ensure username does not already exist
         try:
-            cursor.execute("INSERT INTO users(username, password) VALUES (?, ?)", ( username, generate_password_hash(password)))
+            cursor.execute("""INSERT INTO users(username, password) VALUES (?, ?)""", (username, hashed_password ))
             conn.commit()
         except sqlite3.DatabaseError:
             return "username already exists", 400
@@ -79,8 +85,7 @@ def register():
             cursor.close()
             conn.close()
 
-        login()
-        return redirect("/")
+        return redirect("/login")
 
     return render_template('register.html')
 
@@ -101,12 +106,12 @@ def login():
             return "Username and password required", 400
         
         conn = get_db_connection()
+        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
         
         #query database for username
-        user = cursor.execute(
-            "SELECT * FROM users WHERE username = ?", (username)
-        ).fetchone()
+        user = cursor.execute("""SELECT * FROM users WHERE username = ?""", (username, )).fetchone()
+        
         cursor.close()
         conn.close()
 
@@ -128,8 +133,8 @@ def logout():
     return redirect("/")
 
 
-
 @app.route('/search', methods=['GET','POST'])
+@login_required
 def search():
     """Search for recipes based on ingredients"""
     if request.method == "POST":
@@ -152,22 +157,43 @@ def search():
     else: 
         
         return render_template('search.html')
-      
+
+def save_recipe_to_db(user_id, recipe_name, recipe_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""INSERT INTO saved (user_id, recipe_name, recipe_id) VALUES (?, ?, ?)""", (user_id, recipe_name, recipe_id))
+    conn.commit()
+    conn.close()
+    
+@app.route('/save_recipe', methods=["POST"])
+@login_required
+def save_recipe():
+    user_id = session["user_id"]
+    recipe_name = request.form.get('recipe_name')
+    recipe_id = request.form.get('recipe_id')
+
+    save_recipe_to_db(user_id, recipe_name, recipe_id) 
+    return redirect('/')
                  
 @app.route('/saved')
+@login_required
 def saved():
     """Access saved recipes"""
+
+    #Schema: Primary Key id, recipe_name, user id foreign key
 
     return render_template('progress.html')
 
 
 @app.route('/cart')
+@login_required
 def cart():
     """Adds recipes to a cart to generate a grocery list of missing ingredients"""
     return render_template('progress.html')
 
 if __name__ == '__main__':
     init_db()
-    app.run(debug=True)
+    app.run(port=8000, debug=True)
 
   
