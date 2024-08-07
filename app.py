@@ -1,9 +1,12 @@
 #import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, json, redirect, render_template, request, session
 import requests
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 import sqlite3
+from json.decoder import JSONDecodeError
+import ast
+from nltk.stem import PorterStemmer
 
 
 from functions import login_required
@@ -150,20 +153,41 @@ def search():
         url = f'{BASE_URL}/findByIngredients?apiKey={API_KEY}&ingredients={ingredients_str}&number={numOfRecipes}&ignorePantry=true'
 
         response = requests.get(url)
-        data = response.json()
-        recipes = data
+        recipes = response.json()
 
-        return render_template('recipes.html', recipes=recipes)
+        
+
+        # Get ingredient count for each recipe
+        for recipe in recipes:
+            recipe_id = recipe['id']
+            recipe_url = f'{BASE_URL}/{recipe_id}/information?apiKey={API_KEY}'
+            recipe_info = requests.get(recipe_url)
+            recipe_data = recipe_info.json()
+            # Add ingredient count
+            recipe['ingredient_count'] = len(recipe_data.get('extendedIngredients', []))
+
+            # Extract missing ingredients
+            missed_ingredients = recipe.get('missedIngredients', [])
+            recipe['missing_ingredients'] = [ingredient['name'] for ingredient in missed_ingredients]
+                   
+        return render_template('recipes.html', recipes=recipes, recipe_data = recipe_data)
     else: 
         
         return render_template('search.html')
 
-def save_recipe_to_db(user_id, recipe_name, recipe_id):
+def save_recipe_to_db(user_id, recipe_name, recipe_id, recipe_url, image_url, missing_ingredients):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("""INSERT INTO saved (user_id, recipe_name, recipe_id) VALUES (?, ?, ?)""", (user_id, recipe_name, recipe_id))
-    conn.commit()
+    # Check for existing recipe ID
+    cursor.execute("SELECT 1 FROM saved WHERE user_id = ? AND recipe_id = ?", (user_id, recipe_id))
+    exists = cursor.fetchone()
+
+    if exists:
+        pass
+    else:
+        cursor.execute("""INSERT INTO saved (user_id, recipe_name, recipe_id, recipe_url, image_url, missing_ingredients) VALUES (?, ?, ?, ?, ?, ?)""", (user_id, recipe_name, recipe_id,recipe_url, image_url, missing_ingredients ))
+        conn.commit()
     conn.close()
     
 @app.route('/save_recipe', methods=["POST"])
@@ -172,25 +196,99 @@ def save_recipe():
     user_id = session["user_id"]
     recipe_name = request.form.get('recipe_name')
     recipe_id = request.form.get('recipe_id')
+    recipe_url = request.form.get('recipe_url')
+    image_url = request.form.get('image_url')
+    missing_ingredients = request.form.get('missing_ingredients', '')
 
-    save_recipe_to_db(user_id, recipe_name, recipe_id) 
-    return redirect('/')
+    try:
+        save_recipe_to_db(user_id, recipe_name, recipe_id, recipe_url, image_url, missing_ingredients)
+        return '', 204  # You can also return JSON if needed
+    except Exception as e:
+        return "Error saving recipe", 500
                  
 @app.route('/saved')
 @login_required
 def saved():
     """Access saved recipes"""
+    user_id = session.get('user_id')
 
-    #Schema: Primary Key id, recipe_name, user id foreign key
+    conn = get_db_connection()
+    cursor = conn.cursor()
 
-    return render_template('progress.html')
+    cursor.execute("""SELECT * FROM saved WHERE user_id = ?""", (user_id, ))
+    recipes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template('saved.html', recipes=recipes)
+
+
+def add_to_cart_db(user_id, recipe_name, recipe_id, missing_ingredients):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Check for existing recipe ID
+    cursor.execute("SELECT 1 FROM cart WHERE user_id = ? AND recipe_id = ?", (user_id, recipe_id))
+    exists = cursor.fetchone()
+
+    if exists:
+        pass
+    else:
+        cursor.execute("""INSERT INTO cart (user_id, recipe_name, recipe_id, missing_ingredients) VALUES (?, ?, ?, ?)""", (user_id, recipe_name, recipe_id, missing_ingredients ))
+        conn.commit()
+    conn.close()
+
+
+@app.route('/add_to_cart', methods=['POST'])
+@login_required
+def add_to_cart():
+    """Adds recipes to a cart to generate a grocery list of missing ingredients"""
+    user_id = session["user_id"]
+    recipe_name = request.form.get('recipe_name')
+    recipe_id = request.form.get('recipe_id')
+    missing_ingredients = request.form.get('missing_ingredients', '')
+
+    try:
+        add_to_cart_db(user_id, recipe_name, recipe_id, missing_ingredients)
+        return '', 204  # You can also return JSON if needed
+    except Exception as e:
+        return "Error adding to cart", 500
+
+
 
 
 @app.route('/cart')
 @login_required
 def cart():
-    """Adds recipes to a cart to generate a grocery list of missing ingredients"""
-    return render_template('progress.html')
+    """Shows recipes in carts and grocery list """
+    user_id = session.get('user_id')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""SELECT missing_ingredients FROM cart WHERE user_id = ?""", (user_id, ))
+    cart_items = cursor.fetchall()
+    cursor.execute("""SELECT recipe_name FROM cart WHERE user_id = ?""", (user_id, ))
+    recipes = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    # Aggregate and deduplicate ingredients
+    all_ingredients = []
+    for item in cart_items:
+        ingredients_str = item[0]
+        ingredients_list = ast.literal_eval(ingredients_str)
+        for ingredient in ingredients_list:
+            all_ingredients.append(ingredient)
+
+    grocery_list = list(set(all_ingredients))
+    alpha_list = sorted(grocery_list)
+
+    recipes = [recipe[0] for recipe in recipes]
+
+    return render_template('cart.html', grocery_list = alpha_list, recipes=recipes)
 
 if __name__ == '__main__':
     init_db()

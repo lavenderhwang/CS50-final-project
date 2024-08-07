@@ -14,24 +14,41 @@ content %}
 				style="max-width: 200px; height: auto"
 			/>
 			{% endif %}
-			<a href="{{ recipe.sourceUrl }}" target="_blank">View Recipe</a>
-			<p>Missing ingredients: {{ recipe.missedIngredientCount}}</p>
-			{% if recipe.missedIngredientCount >= 1 %}
-                {%for ingredient in recipe.missedIngredients%}
-                <li>{{ingredient['name'].title()}}</li>
-                {%endfor%}
-			{%endif%}
+			<a href="{{ recipe_data.sourceUrl }}" target="_blank">View Recipe</a>
+			<p>
+				You have {{ recipe.ingredient_count - recipe.missedIngredientCount }}/{{
+				recipe.ingredient_count }} ingredients
+			</p>
 		</li>
-		<form action="/save_recipe" method="post">
-			<input type="hidden" name="recipe_name" value="{{ recipe.title }}">
-			<input type="hidden" name="recipe_id" value="{{ recipe.id }}">
-			<button type="submit"> Save Recipe</button>
+
+		<form id="save-recipe-form" action="/save_recipe" method="post">
+			<input type="hidden" name="recipe_name" value="{{ recipe.title }}" />
+			<input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
+			<input
+				type="hidden"
+				name="missing_ingredients"
+				value="{{ recipe['missing_ingredients'] }}"
+			/>
+			<input type="hidden" name="image_url" value="{{ recipe.image }}" />
+			<input
+				type="hidden"
+				name="recipe_url"
+				value="{{ recipe_data.sourceUrl }}"
+			/>
+			<button type="submit">Save Recipe</button>
 		</form>
-		
+		<form id="add-to-cart-form" action="/add_to_cart" method="post">
+			<input type="hidden" name="recipe_name" value="{{ recipe.title }}" />
+			<input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
+			<input
+				type="hidden"
+				name="missing_ingredients"
+				value="{{ recipe['missing_ingredients'] }}"
+			/>
+			<button type="submit">Add to Cart</button>
+		</form>
 		{% endfor %}
 	</ul>
-	{% else %}
-	<p>No recipes found. Please try different ingredients.</p>
 	{% endif %}
 </ul>
 

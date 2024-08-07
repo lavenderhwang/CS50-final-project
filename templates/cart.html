@@ -1,0 +1,15 @@
+{% extends "layout.html" %} {% block title %} Cart {% endblock %} {% block
+content %}
+<h1>Cart</h1>
+<ul>
+	{% for recipe in recipes %}
+	<li>{{ recipe }}</li>
+	{% endfor %}
+</ul>
+<h2>Grocery List</h2>
+<ul>
+	{% for ingredient in grocery_list %}
+	<li>{{ ingredient }}</li>
+	{% endfor %}
+</ul>
+{% endblock %}
