@@ -11,9 +11,11 @@
 			defer
 			src="{{ url_for('static', filename='js/script.js') }}"
 		></script>
+		{% block head %} {% endblock %}
 		<title>Recipe Finder: {% block title %}{% endblock %}</title>
 	</head>
 	<body>
+		<h1 id="logo">Recipeazy</h1>
 		<nav>
 			{% if session["user_id" ] %}
 			<ul class="navbar">
@@ -29,10 +31,10 @@
 			{% else %}
 			<ul>
 				<li>
-					<a href="/register">Register</a>
+					<a href="/login">Log In</a>
 				</li>
 				<li>
-					<a href="/login">Log In</a>
+					<a id="register-btn" href="/register">Register</a>
 				</li>
 			</ul>
 			{% endif %}

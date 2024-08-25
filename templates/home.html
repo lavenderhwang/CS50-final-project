@@ -1,0 +1,19 @@
+{% extends "layout.html" %} {% block title %} Home {% endblock %} {% block head
+%}
+<link
+	rel="stylesheet"
+	href="{{ url_for('static', filename='css/home.css') }}"
+/>
+{% endblock %} {% block content %}
+
+<img
+	class="img-buffer"
+	src="/static/assets/hero-img.jpeg"
+	alt="various ingredients on table"
+/>
+<div class="hero">
+	<h1 class="hero-txt">Got Ingredients? <br />Get Recipes.</h1>
+	<button class="hero-btn">Get Started</button>
+</div>
+
+{% endblock %}

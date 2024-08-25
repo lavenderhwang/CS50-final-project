@@ -54,9 +54,7 @@ def get_db_connection():
 @app.route('/')
 def index():
     """Auto Load"""
-    if "user_id" not in session:
-        return redirect("/login")
-    return render_template('layout.html')
+    return render_template('home.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

@@ -1,8 +1,19 @@
-{% extends "layout.html" %} {% block title %} Search {% endblock %} {% block
-content %}
-<form action="/login" method="post">
-	<input type="text" name="username" placeholder="Username" />
-	<input type="password" name="password" placeholder="Password" />
-	<button type="submit">Log In</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='css/login.css') }}"
+		/>
+		<title>Recipe Finder: Login</title>
+	</head>
+	<body>
+		<form action="/login" method="post">
+			<input type="text" name="username" placeholder="Username" />
+			<input type="password" name="password" placeholder="Password" />
+			<button class="login-btn" type="submit">Log In</button>
+		</form>
+	</body>
+</html>

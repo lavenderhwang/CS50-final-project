@@ -1,0 +1,45 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-image: url(/static/assets/hero-img.jpeg);
+	background-size: 115% auto;
+	background-position: -15% 34%;
+	background-repeat: no-repeat;
+	margin: 3rem;
+}
+
+.img-buffer {
+	right: 90%;
+	bottom: 0%;
+	position: absolute;
+	z-index: -1;
+}
+
+.hero {
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-top: 19%;
+	gap: 1rem;
+}
+
+.hero-txt {
+	font-weight: 300;
+	font-size: 2.9rem;
+}
+
+.hero-btn {
+	font-size: 1.1rem;
+	font-weight: 550;
+	width: 15rem;
+	padding: 1rem;
+	border-radius: 15rem;
+	border: none;
+	background-color: var(--text-color);
+	color: #fff;
+}
