@@ -10,10 +10,37 @@
 		<title>Recipe Finder: Login</title>
 	</head>
 	<body>
-		<form action="/login" method="post">
-			<input type="text" name="username" placeholder="Username" />
-			<input type="password" name="password" placeholder="Password" />
-			<button class="login-btn" type="submit">Log In</button>
-		</form>
+		<div class="card">
+			<h1 class="title">Log In</h1>
+			<form action="/login" method="post">
+				<div class="group">
+					<img class="icon" src="/static/assets/user.png" alt="user icon" />
+					<input
+						class="username"
+						type="text"
+						name="username"
+						placeholder="Username"
+					/>
+				</div>
+
+				<hr />
+				<div class="group">
+					<img
+						class="icon"
+						src="/static/assets/password.png"
+						alt="password icon"
+					/>
+					<input
+						class="password"
+						type="password"
+						name="password"
+						placeholder="Password"
+					/>
+				</div>
+
+				<hr />
+				<button class="login-btn hover" type="submit">Log In</button>
+			</form>
+		</div>
 	</body>
 </html>
