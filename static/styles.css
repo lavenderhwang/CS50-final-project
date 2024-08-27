@@ -55,3 +55,23 @@ nav {
 	left: 3rem;
 	top: 1.5rem;
 }
+
+.icon {
+	width: 70%;
+	margin: 0;
+	padding: 0;
+}
+
+.navbar {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+
+.logout {
+	background-color: var(--text-color);
+	color: #fff;
+	border-radius: 3rem;
+	font-weight: bold;
+	padding: 0.5rem 2rem;
+}

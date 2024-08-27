@@ -119,7 +119,7 @@ def login():
         # Ensure username exists and password is correct
         if user and check_password_hash(user['password'], password):
             session['user_id'] = user['id']
-            return redirect("/")
+            return redirect("/search")
         else:
             return "Invalid username or password", 400
 

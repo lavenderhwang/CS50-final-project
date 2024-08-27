@@ -19,13 +19,29 @@
 		<nav>
 			{% if session["user_id" ] %}
 			<ul class="navbar">
-				<li><a href="/search">Search</a></li>
-				<li><a href="/saved">Saved</a></li>
 				<li>
-					<a href="/cart">Cart</a>
+					<a href="/search"
+						><img
+							class="icon"
+							src="/static/assets/search.png"
+							alt="search icon"
+					/></a>
 				</li>
 				<li>
-					<a href="/logout">Log Out</a>
+					<a href="/saved"
+						><img
+							class="icon"
+							src="/static/assets/bookmark.png"
+							alt="bookmark icon"
+					/></a>
+				</li>
+				<li>
+					<a href="/cart"
+						><img class="icon" src="/static/assets/cart.png" alt="cart icon"
+					/></a>
+				</li>
+				<li>
+					<a href="/logout" class="logout">Log Out</a>
 				</li>
 			</ul>
 			{% else %}

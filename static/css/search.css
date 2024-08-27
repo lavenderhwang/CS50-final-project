@@ -1,0 +1,74 @@
+:root {
+	--text-color: #f24962;
+	--accent-color: #f2f2f2;
+}
+
+form {
+	margin: 8rem 15rem;
+}
+
+.searchbar {
+	outline: none;
+	border: none;
+	background-color: #f2f2f2;
+	border-radius: 5rem;
+	padding: 1rem 2rem;
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.search {
+	outline: none;
+	border: none;
+	background: none;
+	font-size: 1.5rem;
+	width: 100%;
+
+	color: var(--text-color);
+}
+
+.search::placeholder {
+	color: var(--text-color);
+}
+
+.submit-search {
+	outline: none;
+	border: none;
+}
+
+#slider {
+	width: 100%;
+	-webkit-appearance: none; /* Remove default WebKit styling */
+	appearance: none;
+}
+
+#slider::-webkit-slider-runnable-track {
+	background-color: var(--text-color);
+	height: 5px;
+	border-radius: 5px;
+}
+
+#slider::-webkit-slider-thumb {
+	-webkit-appearance: none; /* Remove default WebKit styling */
+	appearance: none;
+	width: 20px; /* Adjust the size of the thumb */
+	height: 20px; /* Adjust the size of the thumb */
+	background-color: var(--text-color); /* Thumb color */
+	border-radius: 50%; /* Make the thumb circular */
+	cursor: pointer;
+	margin: -8px;
+}
+
+.slider-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1rem 1.7rem;
+}
+
+.slider-container label {
+	width: 16%;
+	font-size: 1.2rem;
+	margin-right: 1rem;
+}
