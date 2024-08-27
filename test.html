@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="test.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul>
+      <ul>
+        <li>
+          <h2>Recipe Title</h2>
+          <img
+            src="image_url_here"
+            alt="Recipe Title"
+            style="max-width: 200px; height: auto"
+          />
+          <a href="recipe_source_url_here" target="_blank">View Recipe</a>
+          <p>You have X/Y ingredients</p>
+        </li>
+
+        <form id="save-recipe-form" action="/save_recipe" method="post">
+          <input type="hidden" name="recipe_name" value="Recipe Title" />
+          <input type="hidden" name="recipe_id" value="Recipe ID" />
+          <input
+            type="hidden"
+            name="missing_ingredients"
+            value="Missing Ingredients List"
+          />
+          <input type="hidden" name="image_url" value="image_url_here" />
+          <input
+            type="hidden"
+            name="recipe_url"
+            value="recipe_source_url_here"
+          />
+          <button type="submit">Save Recipe</button>
+        </form>
+
+        <form id="add-to-cart-form" action="/add_to_cart" method="post">
+          <input type="hidden" name="recipe_name" value="Recipe Title" />
+          <input type="hidden" name="recipe_id" value="Recipe ID" />
+          <input
+            type="hidden"
+            name="missing_ingredients"
+            value="Missing Ingredients List"
+          />
+          <button type="submit">Add to Cart</button>
+        </form>
+      </ul>
+    </ul>
+  </body>
+</html>

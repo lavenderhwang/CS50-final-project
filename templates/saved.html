@@ -2,20 +2,20 @@
 block content %}
 <h1>Saved Recipes</h1>
 <ul>
-	{% for recipe in recipes %}
-	<li>
-		<h2>{{ recipe[2] }}</h2>
-		{% if recipe[4] %}
-		<img
-			src="{{ recipe[4] }}"
-			alt="{{ recipe[2] }}"
-			style="max-width: 200px; height: auto"
-		/>
-		{% endif %}
-		<a href="{{ recipe[3] }}" target="_blank">View Recipe</a>
-	</li>
+  {% for recipe in recipes %}
+  <li>
+    <h2>{{ recipe[2] }}</h2>
+    {% if recipe[4] %}
+    <img
+      src="{{ recipe[4] }}"
+      alt="{{ recipe[2] }}"
+      style="max-width: 200px; height: auto"
+    />
+    {% endif %}
+    <a href="{{ recipe[3] }}" target="_blank">View Recipe</a>
+  </li>
 
-	{% endfor %}
+  {% endfor %}
 </ul>
 
 {% endblock %}

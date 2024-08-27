@@ -1,60 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link
-			rel="stylesheet"
-			href="{{ url_for('static', filename='css/register.css') }}"
-		/>
-		<title>Recipe Finder: Register</title>
-	</head>
-	<body>
-		<div class="card">
-			<h1 class="title">Create an Account</h1>
-			<form action="/register" method="post">
-				<div class="group">
-					<img class="icon" src="/static/assets/user.png" alt="user icon" />
-					<input
-						class="username"
-						type="text"
-						name="username"
-						placeholder="Username"
-					/>
-				</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/register.css') }}"
+    />
+    <title>Recipe Finder: Register</title>
+  </head>
+  <body>
+    <div class="card">
+      <h1 class="title">Create an Account</h1>
+      <form action="/register" method="post">
+        <div class="group">
+          <img class="icon" src="/static/assets/user.png" alt="user icon" />
+          <input
+            class="username"
+            type="text"
+            name="username"
+            placeholder="Username"
+          />
+        </div>
 
-				<hr />
-				<div class="group">
-					<img
-						class="icon"
-						src="/static/assets/password.png"
-						alt="password icon"
-					/>
-					<input
-						class="password"
-						type="password"
-						name="password"
-						placeholder="Password"
-					/>
-				</div>
-				<hr />
-				<div class="group">
-					<img
-						class="icon"
-						src="/static/assets/password.png"
-						alt="password icon"
-					/>
-					<input
-						class="password"
-						type="password"
-						name="confirmation"
-						placeholder="Confirm Password"
-					/>
-				</div>
+        <hr />
+        <div class="group">
+          <img
+            class="icon"
+            src="/static/assets/password.png"
+            alt="password icon"
+          />
+          <input
+            class="password"
+            type="password"
+            name="password"
+            placeholder="Password"
+          />
+        </div>
+        <hr />
+        <div class="group">
+          <img
+            class="icon"
+            src="/static/assets/password.png"
+            alt="password icon"
+          />
+          <input
+            class="password"
+            type="password"
+            name="confirmation"
+            placeholder="Confirm Password"
+          />
+        </div>
 
-				<hr />
-				<button class="register-btn" type="submit">Register</button>
-			</form>
-		</div>
-	</body>
+        <hr />
+        <button class="register-btn" type="submit">Register</button>
+      </form>
+    </div>
+  </body>
 </html>
