@@ -2,92 +2,78 @@
 recipes_content %}
 
 <div class="recipe-grid">
-  <ul>
-    {% if recipes %}
-    <ul>
-      {% for recipe in recipes %}
-      <li>
-        <div class="recipe-card">
-          {% if recipe.image %}
-          <img
-            src="{{ recipe.image }}"
-            alt="{{ recipe.title }}"
-            style="max-width: 300px; height: 300px; object-fit: cover"
-          />
-          {% endif %}
-          <h2>{{ recipe.title }}</h2>
-          <p>
-            {{ recipe.ingredient_count - recipe.missedIngredientCount }}/{{
-            recipe.ingredient_count }} ingredients
-          </p>
+  {% if recipes %} {% for recipe in recipes %}
 
-          <div class="icon-bar">
-            <a href="{{ recipe_data.sourceUrl }}" target="_blank"
-              ><img
-                src="/static/assets/external.png"
-                alt="external link icon"
-                class="icon"
-                class="view-recipe-icon"
-            /></a>
-
-            <form id="save-recipe-form" action="/save_recipe" method="post">
-              <input
-                type="hidden"
-                name="recipe_name"
-                value="{{ recipe.title }}"
-              />
-              <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
-              <input
-                type="hidden"
-                name="missing_ingredients"
-                value="{{ recipe['missing_ingredients'] }}"
-              />
-              <input
-                type="hidden"
-                name="image_url"
-                value="{{ recipe.image }}"
-              />
-              <input
-                type="hidden"
-                name="recipe_url"
-                value="{{ recipe_data.sourceUrl }}"
-              />
-              <button type="submit">
-                <img
-                  src="/static/assets/bookmark.png"
-                  alt="save icon"
-                  class="icon"
-                />
-              </button>
-            </form>
-            <form id="add-to-cart-form" action="/add_to_cart" method="post">
-              <input
-                type="hidden"
-                name="recipe_name"
-                value="{{ recipe.title }}"
-              />
-              <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
-              <input
-                type="hidden"
-                name="missing_ingredients"
-                value="{{ recipe['missing_ingredients'] }}"
-              />
-              <button type="submit">
-                <img
-                  src="/static/assets/add-to-cart.png"
-                  alt="add to cart icon"
-                  class="icon"
-                  id="add-to-cart-icon"
-                />
-              </button>
-            </form>
-          </div>
-        </div>
-      </li>
-
-      {% endfor %}
-    </ul>
+  <div class="recipe-card">
+    {% if recipe.image %}
+    <img
+      src="{{ recipe.image }}"
+      alt="{{ recipe.title }}"
+      class="recipe-image"
+    />
     {% endif %}
-  </ul>
+    <div class="recipe-info">
+      <h2 class="recipe-title">{{ recipe.title }}</h2>
+      <p class="recipe-ingredients" style="margin-top: 0.2rem">
+        {{ recipe.ingredient_count - recipe.missedIngredientCount }}/{{
+        recipe.ingredient_count }} ingredients
+      </p>
+    </div>
+
+    <div class="icon-bar">
+      <div class="icon-left">
+        <a href="{{ recipe_data.sourceUrl }}" target="_blank"
+          ><img
+            src="/static/assets/external.png"
+            alt="external link icon"
+            class="icon"
+            class="view-recipe-icon"
+        /></a>
+      </div>
+      <div class="icon-right">
+        <form id="save-recipe-form" action="/save_recipe" method="post">
+          <input type="hidden" name="recipe_name" value="{{ recipe.title }}" />
+          <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
+          <input
+            type="hidden"
+            name="missing_ingredients"
+            value="{{ recipe['missing_ingredients'] }}"
+          />
+          <input type="hidden" name="image_url" value="{{ recipe.image }}" />
+          <input
+            type="hidden"
+            name="recipe_url"
+            value="{{ recipe_data.sourceUrl }}"
+          />
+          <button type="submit">
+            <img
+              src="/static/assets/bookmark.png"
+              alt="save icon"
+              class="icon"
+            />
+          </button>
+        </form>
+        <form id="add-to-cart-form" action="/add_to_cart" method="post">
+          <input type="hidden" name="recipe_name" value="{{ recipe.title }}" />
+          <input type="hidden" name="recipe_id" value="{{ recipe.id }}" />
+          <input
+            type="hidden"
+            name="missing_ingredients"
+            value="{{ recipe['missing_ingredients'] }}"
+          />
+          <button type="submit">
+            <img
+              src="/static/assets/add-to-cart.png"
+              alt="add to cart icon"
+              class="icon"
+              id="add-to-cart-icon"
+            />
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %} {% endif %}
 </div>
 {% endblock %}
