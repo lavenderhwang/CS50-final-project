@@ -1,15 +1,37 @@
-{% extends "layout.html" %} {% block title %} Cart {% endblock %} {% block
-content %}
-<h1>Cart</h1>
-<ul>
-	{% for recipe in recipes %}
-	<li>{{ recipe }}</li>
-	{% endfor %}
-</ul>
-<h2>Grocery List</h2>
-<ul>
-	{% for ingredient in grocery_list %}
-	<li>{{ ingredient }}</li>
-	{% endfor %}
-</ul>
+{% extends "layout.html" %} {% block title %} Cart {% endblock %} {% block head
+%}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/cart.css') }}"
+/>
+{% endblock %}{% block content %}
+<h1 class="title">Cart</h1>
+<div class="grid">
+  <div class="recipe-container">
+    <ul>
+      {% for recipe in recipes %}
+
+      <li>{{ recipe }}</li>
+
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="grocery-list-container">
+    <h2 class="grocery-list-title">Grocery List</h2>
+    <ul>
+      {% for ingredient in grocery_list %}
+      <div class="ingredient">
+        <img
+          src="/static/assets/checklist.png"
+          alt="checklist icon"
+          class="checklist-icon"
+        />
+        <li>{{ ingredient }}</li>
+      </div>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% endblock %}

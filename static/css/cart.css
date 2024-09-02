@@ -1,0 +1,71 @@
+body {
+  overflow: visible;
+}
+.title {
+  text-align: center;
+  margin-top: 7rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  margin: 0rem 6rem;
+}
+
+.recipe-container {
+  margin-left: 3rem;
+}
+
+.grocery-list-container {
+  background-color: #f2f2f2;
+  border-radius: 1rem;
+  padding: 1rem;
+  height: 100vh;
+}
+
+.ingredient {
+  display: flex;
+  gap: 10px;
+}
+
+.ingredient li {
+  font-size: 1.2rem;
+}
+
+.grocery-list-container ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+li {
+  text-decoration: none;
+}
+
+.checklist-icon {
+  width: 20px;
+  height: auto;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.grocery-list-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+
+.recipe-container ul {
+  list-style-type: decimal;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.recipe-container li {
+  font-size: 1.2rem;
+  font-weight: bold;
+}

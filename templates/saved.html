@@ -1,21 +1,36 @@
-{% extends "layout.html" %} {% block title %} Saved Recipes {% endblock %} {%
-block content %}
-<h1>Saved Recipes</h1>
-<ul>
+{% extends "layout.html" %} {% block title %} Saved Recipes {% endblock %}{%
+block head %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/saved.css') }}"
+/>
+{% endblock %} {% block content %}
+<h1 class="title">Saved Recipes</h1>
+<div class="recipe-grid">
   {% for recipe in recipes %}
-  <li>
-    <h2>{{ recipe[2] }}</h2>
+  <div class="recipe-card">
     {% if recipe[4] %}
-    <img
-      src="{{ recipe[4] }}"
-      alt="{{ recipe[2] }}"
-      style="max-width: 200px; height: auto"
-    />
+    <img src="{{ recipe[4] }}" alt="{{ recipe[2] }}" class="recipe-image" />
     {% endif %}
-    <a href="{{ recipe[3] }}" target="_blank">View Recipe</a>
-  </li>
+
+    <h2 class="recipe-title">{{ recipe[2] }}</h2>
+    <div class="icon-bar">
+      <a href="{{ recipe[3] }}" target="_blank"
+        ><img
+          src="/static/assets/external.png"
+          alt="view external link icon"
+          class="icon"
+      /></a>
+      <img
+        src="/static/assets/delete.png"
+        alt="trash can icon"
+        class="delete-btn icon"
+      />
+
+      <!--delete button-->
+    </div>
+  </div>
 
   {% endfor %}
-</ul>
-
+</div>
 {% endblock %}
